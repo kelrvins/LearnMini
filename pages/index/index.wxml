@@ -1,44 +1,40 @@
 <!-- index.wxml -->
 <!-- <view class="todo-wrapper"> -->
- <image class="todo-top-bgimg" src="../images/miniTopBack.jpeg" /> 
+<image class="todo-top-bgimg" src="../images/miniTopBack.jpeg" />
 <scroll-view scroll-y class="todo-wrapper">
   <text class="index-title">我的一天</text>
-  <text class="current-date-text">6月24日 星期日</text>
+  <text class="current-date-text">{{currentDate}}</text>
   <view class="todo-container">
-    <view class="todo-single">
+    <block wx:for="{{todoList}}" wx:for-item="todoItem" wx:key="todoItem.todoId">
+      <view class="todo-single {{todoItem.isFinish?'todo-single--suc':''}}" bindtap='viewDetail'>
+        <view data-id="{{todoItem.todoId}}" class="todo-status-click" catchtap  ='changeStatus'>
+          <view class="todo-status-button">
+          </view>
+        </view>
+        <view class="todo-status-text">
+          <text class="todo-status-tt">{{todoItem.title}}</text>
+          <text class="todo-status-type">To-Do{{todoItem.detail?' · '+todoItem.finishCount+'/'+todoItem.detail.length:''}}</text>
+        </view>
+      </view>
+    </block>
+    <!-- <view class="todo-single todo-single--suc">
       <view class="todo-status-button"></view>
       <view class="todo-status-text">
         <text class="todo-status-tt">测试123</text>
         <text class="todo-status-type">TODO</text>
       </view>
-    </view>
-    <view class="todo-single">
-      <view class="todo-status-button"></view>
-      <view class="todo-status-text">
-        <text class="todo-status-tt">测试123</text>
-        <text class="todo-status-type">TODO</text>
-      </view>
-    </view>
-     <view class="todo-single">
-      <view class="todo-status-button"></view>
-      <view class="todo-status-text">
-        <text class="todo-status-tt">测试123</text>
-        <text class="todo-status-type">TODO</text>
-      </view>
-    </view>
+    </view> -->
   </view>
 </scroll-view>
 <view class="todo-single-add">
   <text class="todo-single-add-icon">+</text>
-  <text class="todo-single-add-text">添加代办事项</text>
-</view>  <view class="userinfo">
-    <button 
-    wx:if="{{!hasUserInfo && canIUse}}" 
-    open-type="getUserInfo" 
-    bindgetuserinfo="getUserInfo">
-      登录
-    </button>
-    <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-    </block>
-  </view>
+  <text class="todo-single-add-text">添加待办事项</text>
+</view>
+<view class="userinfo">
+  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+    登录
+  </button>
+  <block wx:else>
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+  </block>
+</view>

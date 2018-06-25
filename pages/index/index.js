@@ -51,11 +51,5 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  },
-  numAdd () {
-    console.log('add:', this.data.number1)
-    this.setData({
-      number1: ++this.data.number1
-    })
   }
 })

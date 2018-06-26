@@ -1,6 +1,6 @@
 //index.js
 import util from '../../utils/util.js'
-import todoList from './mock.js'
+// import todoList from './mock.js'
 //获取应用实例
 const App = getApp()
 
@@ -12,7 +12,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     newTodoText: '',
     titletext: '',
-    todoList
+    todoList:[]
   },
   // 更改当前状态
   changeStatus(e) {
@@ -83,6 +83,7 @@ Page({
           that.setData({
             todoList: that.data.todoList
           })
+          this.syncStorage()
         }
       }
     })
@@ -117,16 +118,35 @@ Page({
       newTodoText: '',  // 重置输入框
       scrollToView: "todoContainerEnd"  //滚动到底
     })
+    this.syncStorage()
+  },
+  syncStorage() {
+    try {
+      wx.setStorageSync('todoList', this.data.todoList)
+    } catch (e) {
+    }
   },
   onLoad: function() {
+    const that = this
+    wx.getStorage({
+      key: 'todoList',
+      success: function (res) {
+        that.setData({
+          todoList: res.data
+        })
+      },
+      fail(err){
+        console.log(err)
+      }
+    })
     // 初始化任务数据
-    this.data.todoList.forEach(el => {
-      el.isTouchMove = false
-      el.left = 0
-    })
-    this.setData({
-      todoList: this.data.todoList
-    })
+    // this.data.todoList.forEach(el => {
+    //   el.isTouchMove = false
+    //   el.left = 0
+    // })
+    // this.setData({
+    //   todoList: this.data.todoList
+    // })
     if (App.globalData.userInfo) {
       this.setData({
         userInfo: App.globalData.userInfo,

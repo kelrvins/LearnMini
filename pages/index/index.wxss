@@ -4,14 +4,14 @@ page {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #ddd;
+  background-color: #fff;
 }
 
 .todo-top-bgimg {
   display: flex;
   flex-direction: row;
   position: fixed;
-  height: 700rpx;
+  /* height: 700rpx;  */
   width: 100%;
   z-index: 10;
 }
@@ -32,6 +32,7 @@ page {
   position: absolute;
   left: 30rpx;
   top: 220rpx;
+  color: #fff;
   line-height: 60rpx;
   font-weight: bolder;
   font-size: 65rpx;
@@ -42,6 +43,7 @@ page {
   position: absolute;
   left: 30rpx;
   top: 280rpx;
+  color: #fff;
   font-size: 50rpx;
 }
 
@@ -49,28 +51,52 @@ page {
   background: #fff;
   position: absolute;
   top: 360rpx;
-  bottom: 0;
   left: 0;
   right: 0;
+  background: linear-gradient(#fff 99%, #ddd 1%);
+  background-size: 100% 130rpx;
 }
 
 .todo-single {
   line-height: 130rpx;
   height: 130rpx;
-  border-bottom: 1px solid #ddd;
-  padding: 0 20rpx;
-  background-color: #fff;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.todo-single-content {
+  width: 100%;
+  overflow: hidden;
+  padding: 0 40rpx 0 0;
+  transform: translateX(90px);
+  margin-left: -90px;
+}
+
+.todo-single--del {
+  background-color: orangered;
+  width: 190rpx;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid orangered;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transform: translateX(90px);
 }
 
 .todo-single--suc .todo-status-button {
-  border: 2rpx solid #00b26a;
-  background-color: #00b26a;
+  border:none;
+}
+.todo-single--suc .todo-status-button icon {
+  display: block !important;
 }
 
 .todo-status-click {
   height: 130rpx;
   width: 130rpx;
+  padding-left: 20rpx;
 }
 
 .todo-status-button {
@@ -95,6 +121,13 @@ page {
   display: block;
   font-size: 32rpx;
   line-height: 40rpx;
+  overflow: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .todo-single--suc .todo-status-tt {
@@ -129,17 +162,21 @@ page {
 .todo-single-add-icon {
   position: absolute;
   top: 50%;
+  left: 25rpx;
+  color: #e23d03;
   transform: translateY(-55%);
   font-size: 60rpx;
   font-weight: 100;
 }
 
-.todo-single-add-text {
+.todo-single-add-input {
   position: absolute;
   top: 50%;
-  left: 70rpx;
+  right: 30rpx;
+  left: 80rpx;
   transform: translateY(-50%);
   font-size: 30rpx;
+  height: 100rpx;
   line-height: 100rpx;
 }
 
@@ -148,9 +185,14 @@ page {
   height: 80rpx;
   border-radius: 50%;
   border: 5rpx solid #fff;
-  position: fixed;
+  position: absolute;
   top: 30rpx;
   right: 30rpx;
   z-index: 102;
+  overflow: hidden;
   box-shadow: 0 3rpx 3rpx 1rpx #ddd;
+}
+
+.todo-container-end {
+  height: 120rpx;
 }

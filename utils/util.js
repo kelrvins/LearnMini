@@ -20,7 +20,21 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const newGuid = () => {
+  var guid = "";
+  for (var i = 1; i <= 32; i++) {
+    var n = Math.floor(Math.random() * 16.0).toString(16);
+    guid += n;
+  }
+  return guid;
+}
+
+const timeStamp = () => {
+  return  Date.parse(new Date())
+}
 module.exports = {
   formatTime,
-  formatDate
+  formatDate,
+  newGuid,
+  timeStamp
 }

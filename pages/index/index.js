@@ -1,7 +1,8 @@
 //index.js
-const util = require('../../utils/util.js')
+import util from '../../utils/util.js'
+import todoList from './mock.js'
 //获取应用实例
-const app = getApp()
+const App = getApp()
 
 Page({
   data: {
@@ -9,58 +10,16 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    getFinishCount: 0,
-    todoList: [{
-      todoId: 'cdsdscwcrevvcddfvdf',
-      title: '测试1',
-      isFinish: false,
-      finishCount: 1,
-      createTime: 1529913111000,
-      detail: [{
-          todoDetialId: 'cdsdscdqwdqswdfvdf',
-          title: '测试11',
-          isFinish: true,
-          createTime: 1529913121000,
-        },
-        {
-          todoDetialId: 'cdsqwedcrevvcdedfvdf',
-          title: '测试12',
-          isFinish: false,
-          createTime: 1529913131000,
-        }
-      ]
-    }, {
-      todoId: 'cdgtrgtrewfrevdffvdf',
-      title: '测试2',
-      finishCount: 1,
-      isFinish: false,
-      createTime: 1529913574000
-    }, {
-      todoId: 'cdsdscwc5gythyujnhvdf',
-      title: '测试3',
-      finishCount: 1,
-      isFinish: true,
-      createTime: 1529913556000
-    }, {
-      todoId: 'cdsdscwcnhgbgvcdsdewdf',
-      title: '测试4',
-      finishCount: 1,
-      isFinish: false,
-      createTime: 1529913588000
-    }]
-  },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    newTodoText: '',
+    titletext: '',
+    todoList
   },
   // 更改当前状态
   changeStatus(e) {
     const clickId = e.currentTarget.dataset.id
     if (!clickId) return
     const list = this.data.todoList
-    const clickItem = list.filter((el,index) => {
+    const clickItem = list.filter((el, index) => {
       return clickId === el.todoId
     })
     let clickNo
@@ -77,34 +36,141 @@ Page({
     })
     wx.vibrateShort()
   },
-  // 查看详细信心
-  viewDetail(e){
-    console.log(e)
+  // 查看详细信息
+  viewDetail(e) {
+    console.log(this.data.todoList[App.Touches._getIndex(e)])
+    const detail = this.data.todoList[App.Touches._getIndex(e)]
+
+    wx.navigateTo({
+      url: `../detail/detail?title=${detail.title}&createTime=${detail.createTime}`
+    })
+  },
+  todotouchstart(e) {
+    let startX = App.Touches.getClientX(e)
+    startX && this.setData({
+      startX
+    })
+  },
+  todotouchmove(e) {
+    let todoList = App.Touches.touchM(e, this.data.todoList, this.data.startX)
+    todoList && this.setData({
+      todoList
+    })
+  },
+  todotouchend(e) {
+    const width = 180 // 定义操作列表宽度
+    let {
+      todoList,
+      status
+    } = App.Touches.touchE(e, this.data.todoList, this.data.startX, width)
+    todoList && this.setData({
+      todoList
+    })
+    if (status) {
+      this.delTodo(App.Touches._getIndex(e))
+    }
+  },
+  delTodo(e) {
+    wx.vibrateShort()
+    const that = this
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除吗？',
+      success: function(sm) {
+        if (sm.confirm) {
+          // 用户点击了确定 可以调用删除方法了
+          that.data.todoList.splice(e, 1)
+          that.setData({
+            todoList: that.data.todoList
+          })
+        }
+      }
+    })
+  },
+  getUserInfo: function(e) {
+    if (!e.detail.userInfo) {
+      wx.showToast({
+        title: '拒绝尼玛啊',
+        icon: 'none',
+        duration: 5000
+      })
+      return
+    }
+    App.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+  },
+  addtodo(e) {
+    this.data.todoList.push({
+      todoId: util.newGuid(),
+      title: e.detail.value,
+      isTouchMove: false,
+      left: 0,
+      finishCount: 0,
+      isFinish: false,
+      createTime: util.timeStamp()
+    })
+    this.setData({
+      todoList: this.data.todoList, // 更新数据
+      newTodoText: '',  // 重置输入框
+      scrollToView: "todoContainerEnd"  //滚动到底
+    })
   },
   onLoad: function() {
-    if (app.globalData.userInfo) {
+    // 初始化任务数据
+    this.data.todoList.forEach(el => {
+      el.isTouchMove = false
+      el.left = 0
+    })
+    this.setData({
+      todoList: this.data.todoList
+    })
+    if (App.globalData.userInfo) {
       this.setData({
-        userInfo: app.globalData.userInfo,
+        userInfo: App.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+    } else {
+      App.userInfoReadyCallback = res => {
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
         })
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
+    }
+  },
+  // 根据滚动动态调整顶部文字颜色
+  detectiveScrollTop(e){
+    if (e.detail.scrollTop > 200 && this.data.titletext !== 'TODay') {
+      this.setData({
+        titletext: 'TODay'
+      })
+      wx.setNavigationBarTitle({
+        title: this.data.titletext
+      })
+      wx.setNavigationBarColor({
+        frontColor: '#ffffff',
+        backgroundColor: '#e23d03',
+        animation: {
+          duration: 400,
+          timingFunc: 'easeIn'
+        }
+      })
+    } else if (e.detail.scrollTop < 200 && this.data.titletext !== 'To-Do') {
+      this.setData({
+        titletext: 'To-Do'
+      })
+      wx.setNavigationBarTitle({
+        title: this.data.titletext
+      })
+      wx.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff',
+        animation: {
+          duration: 400,
+          timingFunc: 'easeIn'
         }
       })
     }

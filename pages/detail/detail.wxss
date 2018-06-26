@@ -1,0 +1,31 @@
+.todo-detail-tt {
+  position: relative;
+  height: 120rpx;
+  line-height: 120rpx;
+  padding: 0 30rpx;
+}
+
+.todo-detail-click {
+  height: 130rpx;
+  width: 130rpx;
+}
+
+.todo-detail-status {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45rpx;
+  height: 45rpx;
+  border: 5rpx solid #666;
+  border-radius: 50%;
+}
+
+.todo-detail-tt-text {
+  position: absolute;
+  top: 50%;
+  left: 110rpx;
+  transform: translateY(-50%);
+  display: block;
+  font-size: 40rpx;
+  line-height: 40rpx;
+}

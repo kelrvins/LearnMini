@@ -1,0 +1,9 @@
+<view class="todo-detail-tt">
+  <view 
+    data-id="{{todoId}}" 
+    class="todo-detail-click" 
+    catchtap  ='changeDetailStatus'>
+    <view class="todo-detail-status"></view>
+  </view>
+  <text class="todo-detail-tt-text">{{title}}</text>
+</view>

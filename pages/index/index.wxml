@@ -1,22 +1,35 @@
 <!-- index.wxml -->
 <!-- <view class="todo-wrapper"> -->
 <image class="todo-top-bgimg" src="../images/miniTopBack.jpeg" />
-<scroll-view scroll-y class="todo-wrapper">
-  <text class="index-title">我的一天</text>
+<scroll-view scroll-y class="todo-wrapper" bindscroll="detectiveScrollTop" scroll-into-view="{{scrollToView}}">
+  <open-data  class="userinfo-avatar" type="userAvatarUrl"></open-data>
+  <text class="index-title">TODay</text>
   <text class="current-date-text">{{currentDate}}</text>
   <view class="todo-container">
-    <block wx:for="{{todoList}}" wx:for-item="todoItem" wx:key="todoItem.todoId">
-      <view class="todo-single {{todoItem.isFinish?'todo-single--suc':''}}" bindtap='viewDetail'>
-        <view data-id="{{todoItem.todoId}}" class="todo-status-click" catchtap  ='changeStatus'>
-          <view class="todo-status-button">
+    <block wx:for="{{todoList}}" wx:for-item="item" wx:for-index="index" wx:key="item.todoId">
+      <view 
+       data-index="{{index}}"
+        class="todo-single {{item.isFinish?'todo-single--suc':''}}"
+        style="left:{{item.left + 'rpx'}}"
+        bindtouchstart="todotouchstart" 
+        bindtouchmove="todotouchmove" 
+        bindtouchend="todotouchend" 
+        bindtap='viewDetail'>
+        <view class="todo-single-content">
+          <view data-id="{{item.todoId}}" class="todo-status-click" catchtap  ='changeStatus'>
+            <view class="todo-status-button">
+              <icon type="success" size="22" style="display: none;position: absolute;top: -23rpx;"/>
+            </view>
+          </view>
+          <view class="todo-status-text">
+            <text class="todo-status-tt">{{item.title}}</text>
+            <text class="todo-status-type">To-Do{{item.detail?' · '+item.finishCount+'/'+item.detail.length:''}}</text>
           </view>
         </view>
-        <view class="todo-status-text">
-          <text class="todo-status-tt">{{todoItem.title}}</text>
-          <text class="todo-status-type">To-Do{{todoItem.detail?' · '+todoItem.finishCount+'/'+todoItem.detail.length:''}}</text>
-        </view>
+        <view class="todo-single--del" catchtap="delTodo" data-index="{{index}}">删除</view>
       </view>
     </block>
+    <view id="todoContainerEnd" class='todo-container-end'></view>
     <!-- <view class="todo-single todo-single--suc">
       <view class="todo-status-button"></view>
       <view class="todo-status-text">
@@ -28,13 +41,5 @@
 </scroll-view>
 <view class="todo-single-add">
   <text class="todo-single-add-icon">+</text>
-  <text class="todo-single-add-text">添加待办事项</text>
-</view>
-<view class="userinfo">
-  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
-    登录
-  </button>
-  <block wx:else>
-    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-  </block>
+  <input class="todo-single-add-input" confirm-hold="true" placeholder-style='color:#e23d03' placeholder='添加待办事项' bindconfirm="addtodo" confirm-type="next" value='{{newTodoText}}'/>
 </view>

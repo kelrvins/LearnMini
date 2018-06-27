@@ -36,6 +36,8 @@
     <input class="todo-single-add-input" confirm-hold="true" placeholder-style='color:#e23d03' placeholder='{{todoItem.detail ? "下一步" : "添加步骤"}}' bindconfirm="addtodo" confirm-type="next" value='{{newStepText}}' />
   </view>
 </view>
+<textarea value='{{todoItem.note}}' bindblur="saveNote" placeholder="添加备注" class="textarea-note">
+</textarea>
 <view class="todo-info-del">
   <text class="todo-create-time">创建于{{createTime}}</text>
   <text class="todo-single-del-icon" data-index="{{todoListIndex}}" bindtap="removeTodo">+</text>

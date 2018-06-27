@@ -70,7 +70,16 @@ Page({
       this.delTodo(App.Touches._getIndex(e))
     }
   },
-
+  saveNote(e) {
+    const temp = this.data.todoList[this.data.todoListIndex]
+    console.log('temp,',temp)
+    const str = "todoList[" + this.data.todoListIndex + "]"
+    console.log(str)
+    this.setData({
+      [str]: temp
+    })
+    this.syncStorage()
+  },
   // 更改当前状态
   changeDetailStatus(e) {
     const clickId = e.currentTarget.dataset.id

@@ -1,13 +1,10 @@
+page {
+  background-color: #f8f8f8;
+}
+
 .todo-wrapper {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  overflow: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  background-color: #fff;
+  border-bottom: 1rpx solid #ddd;
 }
 
 .todo-detail-tt {
@@ -129,6 +126,7 @@
   left: 0;
   right: 0;
   border-top: 1px solid #ddd;
+  background-color: #fff;
   z-index: 110;
 }
 
@@ -149,4 +147,13 @@
   color: #e23d03;
   font-weight: 100;
   transform: rotate(45deg);
+}
+
+.textarea-note {
+  width: 100%;
+  margin-top: 30rpx;
+  padding: 10rpx 15rpx;
+  background-color: #fff;
+  border-top: 1rpx solid #ddd;
+  border-bottom: 1rpx solid #ddd;
 }

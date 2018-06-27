@@ -19,9 +19,6 @@ Page({
     const clickId = e.currentTarget.dataset.id
     if (!clickId) return
     const list = this.data.todoList
-    const clickItem = list.filter((el, index) => {
-      return clickId === el.todoId
-    })
     let clickNo
     for (var i = 0; i < list.length; i++) {
       if (list[i].todoId === clickId) {
@@ -35,6 +32,7 @@ Page({
       [str]: !currentStatus
     })
     wx.vibrateShort()
+    this.syncStorage()
   },
   // 查看详细信息
   viewDetail(e) {
@@ -42,7 +40,7 @@ Page({
     const detail = this.data.todoList[App.Touches._getIndex(e)]
 
     wx.navigateTo({
-      url: `../detail/detail?title=${detail.title}&createTime=${detail.createTime}`
+      url: `../detail/detail?todo_id=${detail.todoId}&index=${App.Touches._getIndex(e)}`
     })
   },
   todotouchstart(e) {
@@ -83,7 +81,7 @@ Page({
           that.setData({
             todoList: that.data.todoList
           })
-          this.syncStorage()
+          that.syncStorage()
         }
       }
     })
@@ -104,6 +102,9 @@ Page({
     })
   },
   addtodo(e) {
+    if (!e.detail.value) {
+      return
+    }
     this.data.todoList.push({
       todoId: util.newGuid(),
       title: e.detail.value,
@@ -118,27 +119,51 @@ Page({
       newTodoText: '',  // 重置输入框
       scrollToView: "todoContainerEnd"  //滚动到底
     })
+    wx.vibrateShort()
     this.syncStorage()
   },
   syncStorage() {
     try {
       wx.setStorageSync('todoList', this.data.todoList)
     } catch (e) {
+      console.log(e)
     }
   },
-  onLoad: function() {
+  getStorageData () {
     const that = this
     wx.getStorage({
       key: 'todoList',
       success: function (res) {
+        let re = res.data
+        re.forEach(el => {
+          el.isTouchMove = false
+          el.left = 0
+        })
         that.setData({
-          todoList: res.data
+          todoList: re
         })
       },
-      fail(err){
+      fail(err) {
         console.log(err)
       }
     })
+  },
+  pageScrollToTop() {
+    this.setData({
+      scrollToView: "userAvatar"  //滚动到顶
+    })
+    console.log('userAvatar')
+  },
+  onLoad: function () {
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#ffffff',
+      animation: {
+        duration: 400,
+        timingFunc: 'easeIn'
+      }
+    })
+    this.getStorageData()
     // 初始化任务数据
     // this.data.todoList.forEach(el => {
     //   el.isTouchMove = false

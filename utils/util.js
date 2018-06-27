@@ -8,6 +8,13 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+const formatUnixTime = time => {
+  let unixTimestamp = new Date(time)
+  let M = ((unixTimestamp.getMonth() + 1) > 10 ? (unixTimestamp.getMonth() + 1) : '0' + (unixTimestamp.getMonth() + 1))
+  let D = (unixTimestamp.getDate() > 10 ? unixTimestamp.getDate() : '0' + unixTimestamp.getDate())
+  let toDay =  M + '月' + D + '日'
+  return toDay
+}
 
 const formatDate = date => {
   const weekStr = ["天", "一", "二", "三", "四", "五", "六"]
@@ -30,11 +37,12 @@ const newGuid = () => {
 }
 
 const timeStamp = () => {
-  return  Date.parse(new Date())
+  return Date.parse(new Date())
 }
 module.exports = {
   formatTime,
   formatDate,
   newGuid,
-  timeStamp
+  timeStamp,
+  formatUnixTime
 }

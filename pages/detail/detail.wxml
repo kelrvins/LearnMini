@@ -1,9 +1,42 @@
-<view class="todo-detail-tt">
-  <view 
-    data-id="{{todoId}}" 
-    class="todo-detail-click" 
-    catchtap  ='changeDetailStatus'>
-    <view class="todo-detail-status"></view>
+<view class="todo-wrapper">
+  <view data-id="{{todoItem.todoId}}" class="todo-detail-tt {{todoItem.isFinish?'todo-single--suc':''}}" bindtap='changeDetailStatus'>
+    <view class="todo-detail-click">
+      <view class="todo-detail-status">
+        <icon type="success" size="28" style="display: none;position: absolute;top: -5rpx;" />
+      </view>
+    </view>
+    <text class="todo-detail-tt-text">{{todoItem.title}}</text>
   </view>
-  <text class="todo-detail-tt-text">{{title}}</text>
+  <!-- <block wx:for="{{todoItem.detail}}" wx:for-item="item" wx:for-index="index" wx:key="item.todoDetialId">
+  <view class="todo-detail-tt todo-detail-tt--sp">
+    <view 
+      data-id="{{item.todoDetialId}}" 
+      class="todo-detail-click" 
+      catchtap='changeDetailStatus'>
+      <view class="todo-detail-status--sp"></view>
+    </view>
+    <text class="todo-detail-tt-text todo-detail-tt-text--sp">{{item.title}}</text>
+  </view>
+</block> -->
+  <block wx:for="{{todoItem.detail}}" wx:for-item="item" wx:for-index="index" wx:key="item.todoId">
+    <view  data-id="{{item.todoDetialId}}" data-index="{{index}}" class="todo-detail-tt todo-detail-tt--sp {{item.isFinish?'todo-single--suc':''}}" style="left:{{item.left + 'rpx'}}" bindtouchstart="todotouchstart" bindtouchmove="todotouchmove" bindtouchend="todotouchend" bindtap='changeStatus'>
+      <view class="todo-single-content">
+        <view class="todo-status-click">
+          <view class="todo-detail-status--sp">
+            <icon type="success" size="21" style="display: none;position: absolute;top: -5rpx;" />
+          </view>
+        </view>
+        <text class="todo-detail-tt-text todo-detail-tt-text--sp">{{item.title}}</text>
+      </view>
+      <view class="todo-single--del" catchtap="delTodo" data-index="{{index}}">删除</view>
+    </view>
+  </block>
+  <view class="todo-single-add">
+    <text class="todo-single-add-icon">+</text>
+    <input class="todo-single-add-input" confirm-hold="true" placeholder-style='color:#e23d03' placeholder='{{todoItem.detail ? "下一步" : "添加步骤"}}' bindconfirm="addtodo" confirm-type="next" value='{{newStepText}}' />
+  </view>
+</view>
+<view class="todo-info-del">
+  <text class="todo-create-time">创建于{{createTime}}</text>
+  <text class="todo-single-del-icon" data-index="{{todoListIndex}}" bindtap="removeTodo">+</text>
 </view>

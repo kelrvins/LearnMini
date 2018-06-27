@@ -48,6 +48,7 @@ page {
 }
 
 .todo-container {
+min-height:100%;
   background: #fff;
   position: absolute;
   top: 360rpx;
@@ -63,7 +64,6 @@ page {
   position: relative;
   display: flex;
   justify-content: space-between;
-  transition: all 0.2s;
 }
 
 .todo-single-content {
@@ -157,27 +157,6 @@ page {
   border-top: 1rpx solid #ddd;
   padding: 0 20rpx;
   z-index: 101;
-}
-
-.todo-single-add-icon {
-  position: absolute;
-  top: 50%;
-  left: 25rpx;
-  color: #e23d03;
-  transform: translateY(-55%);
-  font-size: 60rpx;
-  font-weight: 100;
-}
-
-.todo-single-add-input {
-  position: absolute;
-  top: 50%;
-  right: 30rpx;
-  left: 80rpx;
-  transform: translateY(-50%);
-  font-size: 30rpx;
-  height: 100rpx;
-  line-height: 100rpx;
 }
 
 .userinfo-avatar {

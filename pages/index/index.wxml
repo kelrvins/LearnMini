@@ -2,7 +2,7 @@
 <!-- <view class="todo-wrapper"> -->
 <image class="todo-top-bgimg" src="../images/miniTopBack.jpeg" />
 <scroll-view scroll-y class="todo-wrapper" bindscroll="detectiveScrollTop" scroll-into-view="{{scrollToView}}">
-  <open-data  class="userinfo-avatar" type="userAvatarUrl"></open-data>
+  <open-data id="userAvatar"  class="userinfo-avatar" type="userAvatarUrl"></open-data>
   <text class="index-title">TODay</text>
   <text class="current-date-text">{{currentDate}}</text>
   <view class="todo-container">
@@ -18,7 +18,7 @@
         <view class="todo-single-content">
           <view data-id="{{item.todoId}}" class="todo-status-click" catchtap  ='changeStatus'>
             <view class="todo-status-button">
-              <icon type="success" size="22" style="display: none;position: absolute;top: -23rpx;"/>
+              <icon type="success" size="25" style="display: none;position: absolute;top: -23rpx;"/>
             </view>
           </view>
           <view class="todo-status-text">

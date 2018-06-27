@@ -8,3 +8,24 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+
+.todo-single-add-icon {
+  position: absolute;
+  top: 50%;
+  left: 25rpx;
+  color: #e23d03;
+  transform: translateY(-55%);
+  font-size: 60rpx;
+  font-weight: 100;
+}
+
+.todo-single-add-input {
+  position: absolute;
+  top: 50%;
+  right: 30rpx;
+  left: 80rpx;
+  transform: translateY(-50%);
+  font-size: 30rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+}

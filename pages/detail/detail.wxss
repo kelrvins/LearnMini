@@ -1,13 +1,52 @@
+.todo-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  overflow: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
 .todo-detail-tt {
+  height: 100rpx;
+  line-height: 100rpx;
   position: relative;
-  height: 120rpx;
-  line-height: 120rpx;
-  padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-single--suc .todo-detail-status, .todo-single--suc .todo-detail-status--sp {
+  border: none;
+}
+
+.todo-single--suc .todo-detail-status icon,
+.todo-single--suc .todo-detail-status--sp icon {
+  display: block !important;
+}
+
+.todo-single--suc .todo-detail-tt-text {
+  text-decoration: line-through;
+  color: #555;
+}
+
+.todo-status-click {
+  height: 70rpx;
+  width: 140rpx;
+}
+
+.todo-detail-tt--sp {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0;
 }
 
 .todo-detail-click {
-  height: 130rpx;
-  width: 130rpx;
+  height: 100rpx;
+  width: 150rpx;
+  padding-left: 30rpx;
 }
 
 .todo-detail-status {
@@ -16,16 +55,98 @@
   transform: translateY(-50%);
   width: 45rpx;
   height: 45rpx;
-  border: 5rpx solid #666;
+  border: 2rpx solid #666;
+  border-radius: 50%;
+}
+
+.todo-detail-status--sp {
+  position: absolute;
+  top: 50%;
+  left: 50rpx;
+  transform: translateY(-50%);
+  width: 35rpx;
+  height: 35rpx;
+  border: 2rpx solid #666;
   border-radius: 50%;
 }
 
 .todo-detail-tt-text {
   position: absolute;
+  width: 75%;
   top: 50%;
   left: 110rpx;
   transform: translateY(-50%);
   display: block;
-  font-size: 40rpx;
-  line-height: 40rpx;
+  font-size: 38rpx;
+  line-height: 45rpx;
+  overflow: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.todo-detail-tt-text--sp {
+  left: 120rpx;
+  font-size: 30rpx;
+}
+
+.todo-single-add {
+  position: relative;
+  background-color: #fff;
+  line-height: 100rpx;
+  height: 100rpx;
+  padding: 0 20rpx;
+  z-index: 101;
+}
+
+.todo-single-content {
+  width: 100%;
+  overflow: hidden;
+  padding: 0 40rpx 0 0;
+  transform: translateX(90px);
+  margin-left: -90px;
+}
+
+.todo-single--del {
+  background-color: orangered;
+  width: 160rpx;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid orangered;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transform: translateX(90px);
+}
+
+.todo-info-del {
+  position: fixed;
+  bottom: 0;
+  height: 100rpx;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #ddd;
+  z-index: 110;
+}
+
+.todo-create-time {
+  display: block;
+  color: #333;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.todo-single-del-icon {
+  position: absolute;
+  right: 30rpx;
+  bottom: 0;
+  font-size: 80rpx;
+  color: #e23d03;
+  font-weight: 100;
+  transform: rotate(45deg);
 }

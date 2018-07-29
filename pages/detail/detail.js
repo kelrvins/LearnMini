@@ -6,7 +6,8 @@ Page({
     createTime: '',
     newStepText: '',
     todoItem: {},
-    todoListIndex: ''
+    todoListIndex: '',
+    todoItemNote: ''
   },
   syncStorage() {
     try {
@@ -72,7 +73,7 @@ Page({
   },
   saveNote(e) {
     const temp = this.data.todoList[this.data.todoListIndex]
-    console.log('temp,',temp)
+    console.log('temp,', this.data.todoItemNote)
     const str = "todoList[" + this.data.todoListIndex + "]"
     console.log(str)
     this.setData({
@@ -171,7 +172,7 @@ Page({
             var prePage = pages[pages.length - 2];
             prePage.getStorageData()
           }
-          if (!that.data.todoList.length){
+          if (!that.data.todoList.length) {
             wx.navigateBack()
             var prePage = pages[pages.length - 2];
             prePage.pageScrollToTop()
@@ -197,10 +198,12 @@ Page({
         wx.setNavigationBarTitle({
           title: currentTodo[0].title.length > 7 ? currentTodo[0].title.substr(0, 7) + '...' : currentTodo[0].title
         })
+        const noteStr = "todoItem.note"
         that.setData({
           createTime: util.formatUnixTime(currentTodo[0].createTime),
           todoList: res.data,
           todoItem: currentTodo[0],
+          [noteStr]: currentTodo[0].note || '',
           todoListIndex: option.index
         })
       },
